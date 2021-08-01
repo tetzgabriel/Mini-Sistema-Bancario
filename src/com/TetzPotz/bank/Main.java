@@ -4,7 +4,10 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Main {
-
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Scanner leitor =  new Scanner(System.in);
         Banco agencia = new Banco(1);

@@ -1,9 +1,6 @@
 package com.TetzPotz.bank;
 
-import com.TetzPotz.bank.Exceptions.AccountNotFoundException;
-import com.TetzPotz.bank.Exceptions.LowBalanceException;
-import com.TetzPotz.bank.Exceptions.UserNotFoundException;
-import com.TetzPotz.bank.Exceptions.WrongBalanceExpetion;
+import com.TetzPotz.bank.Exceptions.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,7 +16,8 @@ public class Banco {
 
     public Banco(int numeroAgencias) {
         this.numeroAgencias = numeroAgencias;
-        this.balanco = calculaBalanco();
+        this.clientes = new ArrayList<>();
+        this.contas = new ArrayList<>();
     }
 
     public int getNumeroAgencias() {
