@@ -159,7 +159,7 @@ public class Banco {
         });
 
         for (int i = 0; i < numContas.get(); i++) {
-            this.clientes.get(i).setExtrato(10000);
+            this.clientes.get(i).setExtrato(100000);
         }
 
         numContas.set(0);

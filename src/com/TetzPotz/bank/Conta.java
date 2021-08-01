@@ -11,9 +11,9 @@ public class Conta extends Cliente{
     public Conta(int cpf, String nome ) {
         super(cpf, nome);
 
-        this.saldo = 10000;
+        this.saldo = 100000;
         this.extrato = new ArrayList<>();
-        this.extrato.add(10000);
+        this.extrato.add(100000);
         this.id = numeroContas;
 
         numeroContas++;

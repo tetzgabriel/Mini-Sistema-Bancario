@@ -103,7 +103,7 @@ public class Main {
                 case 5:
                     DecimalFormat df = new DecimalFormat();
                     df.setMaximumFractionDigits(2);
-                    System.out.println("Balanco do Banco: " + df.format(((float)agencia.calculaBalanco())/100));
+                    System.out.printf("Balanco do Banco: %.2f\n", ((float)agencia.calculaBalanco())/100);
                     break;
                 case 6:
                     opcao = -1;
