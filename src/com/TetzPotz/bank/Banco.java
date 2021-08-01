@@ -1,5 +1,6 @@
 package com.TetzPotz.bank;
 
+import com.TetzPotz.bank.Exceptions.AccountNotFoundException;
 import com.TetzPotz.bank.Exceptions.UserNotFoundException;
 
 import java.util.ArrayList;
@@ -127,4 +128,28 @@ public class Banco {
             throw new UserNotFoundException("Usuario nao encontrado");
         }
     }
+
+    public void saldoConta() throws AccountNotFoundException {
+        Scanner leitor =  new Scanner(System.in);
+        int idLocal;
+        AtomicInteger encontrou = new AtomicInteger();
+        AtomicInteger saldoLocal = new AtomicInteger();
+
+        System.out.println("CPF do cliente desejado: ");
+        idLocal = leitor.nextInt();
+
+        this.contas.forEach(conta -> {
+            if (idLocal == conta.getId()) {
+                encontrou.set(1);
+                saldoLocal.addAndGet(conta.getSaldo());
+            }
+        });
+
+        if (encontrou.get() == 1) {
+            System.out.println("Saldo da conta: "+ saldoLocal.get()/100);
+        } else {
+            throw new AccountNotFoundException("Conta nao encontrada");
+        }
+    }
+
 }
