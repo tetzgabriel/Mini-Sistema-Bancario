@@ -1,5 +1,6 @@
 package com.TetzPotz.bank;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Main {
@@ -42,13 +43,28 @@ public class Main {
                     agencia.showClientes();
                     break;
                 case 1:
-
+                    agencia.showContas();
                     break;
                 case 2:
                     System.out.println("(1) Saldo de cliente");
                     System.out.println("(2) Saldo de conta");
 
                     subOpcao = leitor.nextInt();
+                    if(subOpcao == 1){
+                        try{
+                            agencia.saldoCliente();
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else if (subOpcao == 2){
+                        try {
+                            agencia.saldoConta();
+                        }  catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else {
+                        System.out.println("Opcao invalida");
+                    }
 
                     break;
                 case 3:
@@ -56,10 +72,34 @@ public class Main {
                     System.out.println("(2) Extrato de conta");
 
                     subOpcao = leitor.nextInt();
+
+                    if(subOpcao == 1){
+                        try {
+                            agencia.showExtratoCliente();
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else if (subOpcao == 2) {
+                        try{
+                            agencia.showExtratoConta();
+                        } catch (Exception e){
+                            System.out.println(e.getMessage());
+                        }
+                    } else {
+                        System.out.println("Opcao invalida");
+                    }
                     break;
                 case 4:
+                    try {
+                        agencia.transferencia();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 5:
+                    DecimalFormat df = new DecimalFormat();
+                    df.setMaximumFractionDigits(2);
+                    System.out.println("Balanco do Banco: " + df.format(((float)agencia.calculaBalanco())/100));
                     break;
                 case 6:
                     opcao = -1;
