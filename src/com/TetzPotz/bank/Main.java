@@ -26,8 +26,17 @@ public class Main {
                 case 1:
                     break;
                 case 2:
+                    System.out.println("(1) Saldo de cliente");
+                    System.out.println("(2) Saldo de conta");
+
+                    subOpcao = leitor.nextInt();
+
                     break;
                 case 3:
+                    System.out.println("(1) Extrato de cliente");
+                    System.out.println("(2) Extrato de conta");
+
+                    subOpcao = leitor.nextInt();
                     break;
                 case 4:
                     break;
