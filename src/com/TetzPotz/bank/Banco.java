@@ -3,6 +3,7 @@ package com.TetzPotz.bank;
 import com.TetzPotz.bank.Exceptions.AccountNotFoundException;
 import com.TetzPotz.bank.Exceptions.LowBalanceException;
 import com.TetzPotz.bank.Exceptions.UserNotFoundException;
+import com.TetzPotz.bank.Exceptions.WrongBalanceExpetion;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -221,7 +222,7 @@ public class Banco {
         }
     }
 
-    public void transferencia() throws LowBalanceException, UserNotFoundException {
+    public void transferencia() throws UserNotFoundException, WrongBalanceExpetion {
         Scanner leitor =  new Scanner(System.in);
 
         int idpaga;
@@ -233,7 +234,7 @@ public class Banco {
         int balancoFinal;
         float valorInformado;
 
-        balancoFinal = this.calculaBalanco();
+        balancoInicial = this.calculaBalanco();
 
         System.out.println("Id da conta que envia: ");
         idpaga = leitor.nextInt();
@@ -292,6 +293,49 @@ public class Banco {
                 }
             });
             throw new UserNotFoundException("Usuario nao encontrado");
+        }
+
+        if(encontrourecebe.get() != 2) {
+            this.contas.forEach(conta -> {
+                if(idpaga == conta.getId()) {
+                    conta.setSaldo((conta.getSaldo() + valorpago));
+                    conta.setExtrato(+valorpago);
+
+                    this.clientes.forEach(cliente -> {
+                        if(conta.getCpf() == cliente.getCpf())
+                            cliente.setExtrato(+valorpago);
+                    });
+                }
+            });
+
+            throw new UserNotFoundException("Usuario nao encontrado");
+        }
+
+        balancoFinal = this.calculaBalanco();
+
+        if(balancoFinal != balancoInicial) {
+            this.contas.forEach(conta -> {
+                if(idpaga == conta.getId()) {
+                    conta.setSaldo(conta.getSaldo() + valorpago);
+                    conta.setExtrato(+valorpago);
+
+                    this.clientes.forEach(cliente -> {
+                        if(conta.getCpf() == cliente.getCpf())
+                            cliente.setExtrato(+valorpago);
+                    });
+                }
+
+                if(idrecebe == conta.getId()) {
+                    conta.setSaldo(conta.getSaldo() - valorpago);
+                    conta.setExtrato(-valorpago);
+
+                    this.clientes.forEach(cliente -> {
+                        if(conta.getCpf() == cliente.getCpf())
+                            cliente.setExtrato(-valorpago);
+                    });
+                }
+            });
+            throw new WrongBalanceExpetion("O Balanco total do banco foi adulterado");
         }
     }
 
