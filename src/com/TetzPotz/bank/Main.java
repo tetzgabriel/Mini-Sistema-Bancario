@@ -7,6 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner leitor =  new Scanner(System.in);
+        Banco agencia = new Banco(1);
 
         //instanciar o banco como objeto chamado agencia
         int opcao = 0, subOpcao = 0;

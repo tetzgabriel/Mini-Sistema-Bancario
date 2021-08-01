@@ -17,12 +17,9 @@ public class Banco {
     private ArrayList<Cliente> clientes;
     private ArrayList<Conta> contas;
 
-    public Banco(int numeroAgencias, int balanco, int id, ArrayList<Cliente> clientes, ArrayList<Conta> contas) {
+    public Banco(int numeroAgencias) {
         this.numeroAgencias = numeroAgencias;
-        this.balanco = balanco;
-        this.id = id;
-        this.clientes = clientes;
-        this.contas = contas;
+        this.balanco = calculaBalanco();
     }
 
     public int getNumeroAgencias() {
