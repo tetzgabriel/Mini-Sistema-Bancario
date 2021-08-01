@@ -2,13 +2,14 @@ package com.TetzPotz.bank;
 
 import java.util.ArrayList;
 
-public class Conta {
+public class Conta extends Cliente{
     private int numeroContas;
     private int id;
     private int saldo;
     private ArrayList<Integer> extrato;
 
     public Conta(int cpf, String nome ) {
+
         this.numeroContas = numeroContas;
         this.id = id;
         this.saldo = 10000;
@@ -40,7 +41,7 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    public ArrayList<Integer> getExtrato() {
+    public int[] getExtrato() {
         return extrato;
     }
 

@@ -11,6 +11,10 @@ public class Cliente {
         this.nome = nome;
     }
 
+    public Cliente() {
+
+    }
+
     public int getCpf() {
         return cpf;
     }
@@ -27,8 +31,8 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public int[] getExtrato() {
-        return Extrato;
+    public int getExtrato(int i) {
+        return this.Extrato[i];
     }
 
     public void setExtrato(int[] extrato) {
