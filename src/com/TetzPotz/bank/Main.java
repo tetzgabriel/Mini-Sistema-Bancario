@@ -1,5 +1,6 @@
 package com.TetzPotz.bank;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner leitor =  new Scanner(System.in);
         Banco agencia = new Banco(1);
 
@@ -114,6 +115,7 @@ public class Main {
                     System.out.println("Escolha uma opcao valida");
                     break;
             }
+
         } while (opcao != -1);
     }
 }
