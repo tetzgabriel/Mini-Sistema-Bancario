@@ -6,13 +6,13 @@ public class Cliente {
     private int cpf;
     private String nome;
 
-    private ArrayList<Integer> extrato;
+    private ArrayList<Transferencia> extrato;
 
     public Cliente(int cpf, String nome) {
         this.cpf = cpf;
         this.nome = nome;
         this.extrato = new ArrayList<>();
-        this.extrato.add(100000);
+        this.extrato.add(new Transferencia(100000));
     }
 
     public Cliente() {
@@ -35,12 +35,12 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public int getExtrato(int i) {
+    public Transferencia getExtrato(int i) {
         return this.extrato.get(i);
     }
 
-    public void setExtrato(int valor) {
-        this.extrato.add(valor);
+    public void setExtrato(Transferencia transferencia) {
+        this.extrato.add(transferencia);
     }
 
     public int getTamExtrato() {

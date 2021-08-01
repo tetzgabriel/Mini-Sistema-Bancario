@@ -5,6 +5,7 @@ import com.TetzPotz.bank.Exceptions.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Banco {
     private int numeroAgencias;
@@ -159,7 +160,7 @@ public class Banco {
         });
 
         for (int i = 0; i < numContas.get(); i++) {
-            this.clientes.get(i).setExtrato(100000);
+            this.clientes.get(i).setExtrato(new Transferencia(100000));
         }
 
         numContas.set(0);
@@ -177,11 +178,7 @@ public class Banco {
             if (cpfLocal == cliente.getCpf()) {
                 encontrou.set(1);
                 for(int i = 0; i < cliente.getTamExtrato(); i++){
-                    if (cliente.getExtrato(i) > 0){
-                        System.out.println("+" + cliente.getExtrato(i)/100);
-                    } else {
-                        System.out.println(cliente.getExtrato(i)/100);
-                    }
+                    System.out.println(cliente.getExtrato(i).toString());
                 }
             }
         });
@@ -203,11 +200,7 @@ public class Banco {
             if (idLocal == conta.getId()) {
                 encontrou.set(1);
                 for(int i = 0; i < conta.getTamExtrato(); i++){
-                    if (conta.getExtrato(i) > 0){
-                        System.out.println("+" + conta.getExtrato(i)/100);
-                    } else {
-                        System.out.println(conta.getExtrato(i)/100);
-                    }
+                    System.out.println(conta.getExtrato(i).toString());
                 }
             }
         });
@@ -254,7 +247,7 @@ public class Banco {
                     }
                 } else {
                     conta.setSaldo(conta.getSaldo()-valorpago);
-                    conta.setExtrato(-valorpago);
+                    conta.setExtrato(new Transferencia(-valorpago, conta, this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)));
 
                     this.clientes.forEach(cliente -> {
                         if(conta.getCpf() == cliente.getCpf())

@@ -11,6 +11,12 @@ public class Transferencia {
         this.contaRecebe = contaRecebe;
     }
 
+    public Transferencia(int valor) {
+        this.valor = valor;
+        this.contaPaga = new Conta(0, "Governo");
+        this.contaRecebe = new Conta( 0, "Usuario");
+    }
+
     @Override
     public String toString() {
         return  "Pagante = " + contaPaga.getNome() +
