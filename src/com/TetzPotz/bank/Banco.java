@@ -196,6 +196,32 @@ public class Banco {
         }
     }
 
+    public void showExtratoConta() throws AccountNotFoundException {
+        Scanner leitor =  new Scanner(System.in);
+        int idLocal;
+        AtomicInteger encontrou = new AtomicInteger();
+
+        System.out.println("Id da conta: ");
+        idLocal = leitor.nextInt();
+
+        this.contas.forEach(conta -> {
+            if (idLocal == conta.getCpf()) {
+                encontrou.set(1);
+                for(int i = 0; i < conta.getTamExtrato(); i++){
+                    if (conta.getExtrato(i) > 0){
+                        System.out.println("+" + conta.getExtrato(i)/100);
+                    } else {
+                        System.out.println(conta.getExtrato(i)/100);
+                    }
+                }
+            }
+        });
+
+        if (encontrou.get() != 1) {
+            throw new AccountNotFoundException("Conta nao encontrada");
+        }
+    }
+
 
 
 }
