@@ -57,4 +57,25 @@ public class Banco {
     public void setContas(ArrayList<Conta> contas) {
         this.contas = contas;
     }
+
+    public int calculaBalanco() {
+        if (this.contas.isEmpty()){
+            return 0;
+        } else {
+            int balancoLocal = 0, i = 0;
+
+            for (i = 0; i < this.contas.size(); i++) {
+                balancoLocal += this.contas.get(i).getSaldo(); //this.contas[i] nao funciona por ser ArrayList
+            }
+            return balancoLocal;
+        }
+    }
+
+    public void adicionaCliente(Cliente cliente) {
+        this.clientes.add(cliente);
+    }
+
+    public void adicionaConta(Conta conta) {
+        this.contas.add(conta);
+    }
 }
