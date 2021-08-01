@@ -12,6 +12,10 @@ public class Cliente {
         Extrato = extrato;
     }
 
+    public Cliente() {
+
+    }
+
     public int getCpf() {
         return cpf;
     }

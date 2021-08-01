@@ -1,6 +1,10 @@
 package com.TetzPotz.bank;
 
+import com.TetzPotz.bank.Exceptions.UserNotFoundException;
+
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Banco {
     private int numeroAgencias;
@@ -77,5 +81,50 @@ public class Banco {
 
     public void adicionaConta(Conta conta) {
         this.contas.add(conta);
+    }
+
+    public void showClientes() {
+//        for (i = 0; i < this.clientes.size(); i++){
+//            System.out.println("-----Cliente "+ i+1 + "-----");
+//            System.out.println("Nome do cliente: " + this.clientes.get(i).getNome());
+//            System.out.println("CPF do cliente: " + this.clientes.get(i).getCpf());
+//        }
+
+        this.clientes.forEach(cliente -> { // foreach = funcao do ArrayList
+            System.out.println("-----Cliente-----");
+            System.out.println("Nome do cliente: " + cliente.getNome());
+            System.out.println("CPF do cliente: " + cliente.getCpf());
+        });
+    }
+
+    public void showContas() {
+        this.contas.forEach(conta -> { // foreach = funcao do ArrayList
+            System.out.println("-----Conta "+ conta.getId() +"-----");
+            System.out.println("Nome do titular da conta: " + conta.getNome());
+            System.out.println("CPF do titular da conta: " + conta.getCpf());
+        });
+    }
+
+    public void saldoCliente() throws UserNotFoundException {
+        Scanner leitor =  new Scanner(System.in);
+        int cpfLocal;
+        AtomicInteger encontrou = new AtomicInteger();
+        AtomicInteger saldoLocal = new AtomicInteger();
+
+        System.out.println("CPF do cliente desejado: ");
+        cpfLocal = leitor.nextInt();
+
+        this.contas.forEach(conta -> {
+            if (cpfLocal == conta.getCpf()) {
+                encontrou.set(1);
+                saldoLocal.addAndGet(conta.getSaldo());
+            }
+        });
+
+        if (encontrou.get() == 1) {
+            System.out.println("Saldo do cliente: "+ saldoLocal.get()/100);
+        } else {
+            throw new UserNotFoundException("Usuario nao encontrado");
+        }
     }
 }
