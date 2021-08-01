@@ -200,7 +200,7 @@ public class Banco {
         idLocal = leitor.nextInt();
 
         this.contas.forEach(conta -> {
-            if (idLocal == conta.getCpf()) {
+            if (idLocal == conta.getId()) {
                 encontrou.set(1);
                 for(int i = 0; i < conta.getTamExtrato(); i++){
                     if (conta.getExtrato(i) > 0){
