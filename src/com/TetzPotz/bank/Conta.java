@@ -1,6 +1,8 @@
 package com.TetzPotz.bank;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Conta extends Cliente{
     private int numeroContas;
@@ -10,10 +12,8 @@ public class Conta extends Cliente{
 
     public Conta(int cpf, String nome ) {
 
-        this.numeroContas = numeroContas;
-        this.id = id;
         this.saldo = 10000;
-        this.extrato = extrato;
+        this.extrato = new ArrayList<Integer>();
         this.extrato.add(10000);
     }
 
@@ -41,7 +41,7 @@ public class Conta extends Cliente{
         this.saldo = saldo;
     }
 
-    public int[] getExtrato() {
+    public ArrayList<Integer> getExtrato() {
         return extrato;
     }
 

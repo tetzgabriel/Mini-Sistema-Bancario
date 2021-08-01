@@ -1,11 +1,10 @@
 package com.TetzPotz.bank;
 
 import com.TetzPotz.bank.Exceptions.AccountNotFoundException;
+import com.TetzPotz.bank.Exceptions.LowBalanceException;
 import com.TetzPotz.bank.Exceptions.UserNotFoundException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -164,7 +163,7 @@ public class Banco {
         });
 
         for (int i = 0; i < numContas.get(); i++) {
-            this.clientes.get(i).setExtrato(new int[10000]);
+            this.clientes.get(i).setExtrato(10000);
         }
 
         numContas.set(0);
@@ -222,6 +221,78 @@ public class Banco {
         }
     }
 
+    public void transferencia() throws LowBalanceException, UserNotFoundException {
+        Scanner leitor =  new Scanner(System.in);
 
+        int idpaga;
+        int valorpago;
+        int idrecebe;
+        AtomicInteger encontroupaga = new AtomicInteger();
+        AtomicInteger encontrourecebe = new AtomicInteger();
+        int balancoInicial;
+        int balancoFinal;
+        float valorInformado;
+
+        balancoFinal = this.calculaBalanco();
+
+        System.out.println("Id da conta que envia: ");
+        idpaga = leitor.nextInt();
+
+        System.out.println("Id da conta que recebe: ");
+        idrecebe = leitor.nextInt();
+
+        System.out.println("Valor que deseja transferir: ");
+        valorInformado = leitor.nextFloat();
+
+        valorInformado = valorInformado*100;
+        valorpago = (int)valorInformado;
+
+        this.contas.forEach(conta -> {
+            if(idpaga == conta.getId()){
+                encontroupaga.set(1);
+                if(conta.getSaldo() < valorpago) {
+                    try {
+                        throw new LowBalanceException("Saldo Insuficiente");
+                    } catch (LowBalanceException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    conta.setSaldo(conta.getSaldo()-valorpago);
+                    conta.setExtrato(-valorpago);
+
+                    this.clientes.forEach(cliente -> {
+                        if(conta.getCpf() == cliente.getCpf())
+                            cliente.setExtrato(-valorpago);
+                    });
+                }
+            }
+
+            if(idrecebe == conta.getId()){
+                encontrourecebe.set(2);
+                conta.setSaldo(conta.getSaldo() + valorpago);
+                conta.setExtrato(+valorpago);
+
+                this.clientes.forEach(cliente -> {
+                    if(conta.getCpf() == cliente.getCpf())
+                        cliente.setExtrato(+valorpago);
+                });
+            }
+        });
+
+        if(encontroupaga.get() != 1) {
+            this.contas.forEach(conta -> {
+                if(idrecebe == conta.getId()){
+                    conta.setSaldo(conta.getSaldo() - valorpago);
+                    conta.setExtrato(-valorpago);
+
+                    this.clientes.forEach(cliente -> {
+                        if(conta.getCpf() == cliente.getCpf())
+                            cliente.setExtrato(-valorpago);
+                    });
+                }
+            });
+            throw new UserNotFoundException("Usuario nao encontrado");
+        }
+    }
 
 }

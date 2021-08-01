@@ -1,10 +1,12 @@
 package com.TetzPotz.bank;
 
+import java.util.ArrayList;
+
 public class Cliente {
     private int cpf;
     private String nome;
 
-    protected int[] Extrato;
+    private ArrayList<Integer> extrato;
 
     public Cliente(int cpf, String nome) {
         this.cpf = cpf;
@@ -32,14 +34,14 @@ public class Cliente {
     }
 
     public int getExtrato(int i) {
-        return this.Extrato[i];
+        return this.extrato.get(i);
     }
 
-    public void setExtrato(int[] extrato) {
-        Extrato = extrato;
+    public void setExtrato(int valor) {
+        this.extrato.add(valor);
     }
 
     public int getTamExtrato() {
-        return this.Extrato.length;
+        return this.extrato.size();
     }
 }
