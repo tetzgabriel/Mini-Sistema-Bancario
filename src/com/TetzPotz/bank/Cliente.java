@@ -11,6 +11,8 @@ public class Cliente {
     public Cliente(int cpf, String nome) {
         this.cpf = cpf;
         this.nome = nome;
+        this.extrato = new ArrayList<>();
+        this.extrato.add(100000);
     }
 
     public Cliente() {
