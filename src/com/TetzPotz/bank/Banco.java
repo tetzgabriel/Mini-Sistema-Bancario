@@ -3,7 +3,9 @@ package com.TetzPotz.bank;
 import com.TetzPotz.bank.Exceptions.AccountNotFoundException;
 import com.TetzPotz.bank.Exceptions.UserNotFoundException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -151,5 +153,49 @@ public class Banco {
             throw new AccountNotFoundException("Conta nao encontrada");
         }
     }
+
+    public void extratoClienteStart() {
+        AtomicInteger numContas = new AtomicInteger();
+
+        this.clientes.forEach(cliente -> {
+            this.contas.forEach(conta -> {
+                if(cliente.getCpf() == conta.getCpf()) numContas.getAndIncrement();
+            });
+        });
+
+        for (int i = 0; i < numContas.get(); i++) {
+            this.clientes.get(i).setExtrato(new int[10000]);
+        }
+
+        numContas.set(0);
+    }
+
+    public void showExtratoCliente() throws UserNotFoundException {
+        Scanner leitor =  new Scanner(System.in);
+        int cpfLocal;
+        AtomicInteger encontrou = new AtomicInteger();
+
+        System.out.println("CPF do cliente: ");
+        cpfLocal = leitor.nextInt();
+
+        this.clientes.forEach(cliente -> {
+            if (cpfLocal == cliente.getCpf()) {
+                encontrou.set(1);
+                for(int i = 0; i < cliente.getTamExtrato(); i++){
+                    if (cliente.getExtrato(i) > 0){
+                        System.out.println("+" + cliente.getExtrato(i)/100);
+                    } else {
+                        System.out.println(cliente.getExtrato(i)/100);
+                    }
+                }
+            }
+        });
+
+        if (encontrou.get() != 1) {
+            throw new UserNotFoundException("Usuario nao encontrado");
+        }
+    }
+
+
 
 }
