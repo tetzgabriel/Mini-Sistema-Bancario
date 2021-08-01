@@ -6,10 +6,9 @@ public class Cliente {
 
     protected int[] Extrato;
 
-    public Cliente(int cpf, String nome, int[] extrato) {
+    public Cliente(int cpf, String nome) {
         this.cpf = cpf;
         this.nome = nome;
-        Extrato = extrato;
     }
 
     public int getCpf() {

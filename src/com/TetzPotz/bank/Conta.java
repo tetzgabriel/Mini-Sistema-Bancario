@@ -8,10 +8,10 @@ public class Conta {
     private int saldo;
     private ArrayList<Integer> extrato;
 
-    public Conta(int numeroContas, int id, int saldo, ArrayList<Integer> extrato) {
+    public Conta(int cpf, String nome ) {
         this.numeroContas = numeroContas;
         this.id = id;
-        this.saldo = saldo;
+        this.saldo = 10000;
         this.extrato = extrato;
         this.extrato.add(10000);
     }
