@@ -3,7 +3,7 @@ package com.TetzPotz.bank;
 import java.util.ArrayList;
 
 public class Conta extends Cliente{
-    private int numeroContas = 400;
+    private static int numeroContas = 400;
     private int id;
     private int saldo;
     private ArrayList<Integer> extrato;
@@ -24,7 +24,7 @@ public class Conta extends Cliente{
     }
 
     public void setNumeroContas(int numeroContas) {
-        this.numeroContas = numeroContas;
+        Conta.numeroContas = numeroContas;
     }
 
     public int getId() {
