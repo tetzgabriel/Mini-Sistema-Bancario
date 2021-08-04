@@ -31,14 +31,14 @@ public class Main {
         agencia.adicionaConta(new Conta(5,"Maria Antonieta"));
 
         do {
-            System.out.println("Escolha um item pelo numero");
+            System.out.println("\nEscolha um item pelo numero");
             System.out.println("(0) Lista de Clientes");
             System.out.println("(1) Lista de Contas");
             System.out.println("(2) Saldo");
             System.out.println("(3) Extrato");
             System.out.println("(4) Realizar Transferencia");
             System.out.println("(5) Valor Total das Contas");
-            System.out.println("(6) Sair");
+            System.out.println("(6) Sair\n");
 
             opcao = leitor.nextInt();
 

@@ -90,7 +90,7 @@ public class Banco {
 //        }
 
         this.clientes.forEach(cliente -> { // foreach = funcao do ArrayList
-            System.out.println("-----Cliente-----");
+            System.out.println("\n-----Cliente-----");
             System.out.println("Nome do cliente: " + cliente.getNome());
             System.out.println("CPF do cliente: " + cliente.getCpf());
         });
@@ -98,7 +98,7 @@ public class Banco {
 
     public void showContas() {
         this.contas.forEach(conta -> { // foreach = funcao do ArrayList
-            System.out.println("-----Conta "+ conta.getId() +"-----");
+            System.out.println("\n-----Conta "+ conta.getId() +"-----");
             System.out.println("Nome do titular da conta: " + conta.getNome());
             System.out.println("CPF do titular da conta: " + conta.getCpf());
         });
@@ -133,7 +133,7 @@ public class Banco {
         AtomicInteger encontrou = new AtomicInteger();
         AtomicInteger saldoLocal = new AtomicInteger();
 
-        System.out.println("CPF do cliente desejado: ");
+        System.out.println("Id da conta desejada: ");
         idLocal = leitor.nextInt();
 
         this.contas.forEach(conta -> {
