@@ -34,13 +34,13 @@ public class Transferencia {
         if(this.tipo == 1){
             return  "Pagante = " + this.contaPaga.getNome() +
                     "\nConta Pagante = " + this.contaPaga.getId() +
-                    "\nValor transferido = " + this.valor +
+                    "\nValor transferido = " + String.format("%.2f",(float)this.valor/100) +
                     "\nRecebente = " + this.contaRecebe.getNome() +
                     "\nConta Recebente = " + this.contaRecebe.getId() ;
         } else {
             return  "Pagante = " + this.clientePaga.getNome() +
                     "\nCPF Pagante = " + this.clientePaga.getCpf() +
-                    "\nValor transferido = " + this.valor+
+                    "\nValor transferido = " + String.format("%.2f",(float)this.valor/100) +
                     "\nRecebente = " + this.clienteRecebe.getNome() +
                     "\nCPF Recebente = " + this.clienteRecebe.getCpf() ;
         }
