@@ -12,7 +12,6 @@ public class Cliente {
         this.cpf = cpf;
         this.nome = nome;
         this.extrato = new ArrayList<>();
-        this.extrato.add(new Transferencia(100000));
     }
 
     public Cliente() {

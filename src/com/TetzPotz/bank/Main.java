@@ -31,7 +31,6 @@ public class Main {
         agencia.adicionaConta(new Conta(5,"Maria Antonieta"));
 
         do {
-
             System.out.println("Escolha um item pelo numero");
             System.out.println("(0) Lista de Clientes");
             System.out.println("(1) Lista de Contas");

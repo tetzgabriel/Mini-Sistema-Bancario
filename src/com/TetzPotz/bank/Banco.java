@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Banco {
     private int numeroAgencias;
@@ -247,11 +248,24 @@ public class Banco {
                     }
                 } else {
                     conta.setSaldo(conta.getSaldo()-valorpago);
-                    conta.setExtrato(new Transferencia(-valorpago, conta, this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)));
+                    Conta teste = this.contas.stream().filter((Conta x )-> x.getId() == idrecebe).collect(Collectors.toList()).get(0);
+                    conta.setExtrato(
+                            new Transferencia(
+                                    -valorpago,
+                                    conta,
+                                    teste
+                            )
+                    );
 
                     this.clientes.forEach(cliente -> {
                         if(conta.getCpf() == cliente.getCpf())
-                            cliente.setExtrato(-valorpago);
+                            cliente.setExtrato(
+                                    new Transferencia(
+                                            -valorpago,
+                                            cliente,
+                                            this.contas.stream().filter(x-> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                                    )
+                            );
                     });
                 }
             }
@@ -259,11 +273,23 @@ public class Banco {
             if(idrecebe == conta.getId()){
                 encontrourecebe.set(2);
                 conta.setSaldo(conta.getSaldo() + valorpago);
-                conta.setExtrato(+valorpago);
+                conta.setExtrato(
+                        new Transferencia(
+                                +valorpago,
+                                conta,
+                                this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                        )
+                );
 
                 this.clientes.forEach(cliente -> {
                     if(conta.getCpf() == cliente.getCpf())
-                        cliente.setExtrato(+valorpago);
+                        cliente.setExtrato(
+                                new Transferencia(
+                                        +valorpago,
+                                        cliente,
+                                        this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                                )
+                        );
                 });
             }
         });
@@ -272,11 +298,23 @@ public class Banco {
             this.contas.forEach(conta -> {
                 if(idrecebe == conta.getId()){
                     conta.setSaldo(conta.getSaldo() - valorpago);
-                    conta.setExtrato(-valorpago);
+                    conta.setExtrato(
+                            new Transferencia(
+                                    -valorpago,
+                                    conta,
+                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                            )
+                    );
 
                     this.clientes.forEach(cliente -> {
                         if(conta.getCpf() == cliente.getCpf())
-                            cliente.setExtrato(-valorpago);
+                            cliente.setExtrato(
+                                    new Transferencia(
+                                            -valorpago,
+                                            conta,
+                                            this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
+                                    )
+                            );
                     });
                 }
             });
@@ -287,11 +325,23 @@ public class Banco {
             this.contas.forEach(conta -> {
                 if(idpaga == conta.getId()) {
                     conta.setSaldo((conta.getSaldo() + valorpago));
-                    conta.setExtrato(+valorpago);
+                    conta.setExtrato(
+                            new Transferencia(
+                                    +valorpago,
+                                    conta,
+                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                            )
+                    );
 
                     this.clientes.forEach(cliente -> {
                         if(conta.getCpf() == cliente.getCpf())
-                            cliente.setExtrato(+valorpago);
+                            cliente.setExtrato(
+                                    new Transferencia(
+                                        +valorpago,
+                                        conta,
+                                        this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
+                                    )
+                            );
                     });
                 }
             });
@@ -305,21 +355,45 @@ public class Banco {
             this.contas.forEach(conta -> {
                 if(idpaga == conta.getId()) {
                     conta.setSaldo(conta.getSaldo() + valorpago);
-                    conta.setExtrato(+valorpago);
+                    conta.setExtrato(
+                            new Transferencia(
+                                    +valorpago,
+                                    conta,
+                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                            )
+                    );
 
                     this.clientes.forEach(cliente -> {
                         if(conta.getCpf() == cliente.getCpf())
-                            cliente.setExtrato(+valorpago);
+                            cliente.setExtrato(
+                                    new Transferencia(
+                                    +valorpago,
+                                    conta,
+                                    this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
+                                    )
+                            );
                     });
                 }
 
                 if(idrecebe == conta.getId()) {
                     conta.setSaldo(conta.getSaldo() - valorpago);
-                    conta.setExtrato(-valorpago);
+                    conta.setExtrato(
+                            new Transferencia(
+                                    -valorpago,
+                                    conta,
+                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                            )
+                    );
 
                     this.clientes.forEach(cliente -> {
                         if(conta.getCpf() == cliente.getCpf())
-                            cliente.setExtrato(-valorpago);
+                            cliente.setExtrato(
+                                    new Transferencia(
+                                            -valorpago,
+                                            conta,
+                                            this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
+                                    )
+                            );
                     });
                 }
             });
