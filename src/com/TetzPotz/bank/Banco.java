@@ -248,12 +248,12 @@ public class Banco {
                     }
                 } else {
                     conta.setSaldo(conta.getSaldo()-valorpago);
-                    Conta teste = this.contas.stream().filter((Conta x )-> x.getId() == idrecebe).collect(Collectors.toList()).get(0);
+                    Conta contaPagante = this.contas.stream().filter((Conta x )-> x.getId() == idrecebe).collect(Collectors.toList()).get(0);
                     conta.setExtrato(
                             new Transferencia(
                                     -valorpago,
                                     conta,
-                                    teste
+                                    contaPagante
                             )
                     );
 
