@@ -1,5 +1,8 @@
 package com.TetzPotz.bank;
 
+/**
+ * Classe transferencia onde eh guardado o valor transferido e de onde/para onde foi transferido
+ */
 public class Transferencia {
     private int valor;
     private final int tipo;
@@ -29,6 +32,10 @@ public class Transferencia {
         this.contaRecebe = new Conta( 0, "Usuario");
     }
 
+    /**
+     * toString --> Impressao da transferencia no console
+     * @return transferencia mediante o tipo dela (1 ou 2)
+     */
     @Override
     public String toString() {
         if(this.tipo == 1){

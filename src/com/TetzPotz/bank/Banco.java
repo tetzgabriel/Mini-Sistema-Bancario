@@ -7,6 +7,10 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * Classe Banco
+ * Todas as operações do menu são efetuadas por meio dos métodos da classe
+ */
 public class Banco {
     private int numeroAgencias;
     private int balanco;
@@ -61,6 +65,10 @@ public class Banco {
         this.contas = contas;
     }
 
+    /**
+     * Calcula a soma do saldo de todas as contas do sistema para garantir que o balanço do banco continua correto
+     * @return valor total que o banco possui (numero de contas * 100000)
+     */
     public int calculaBalanco() {
         if (this.contas.isEmpty()){
             return 0;
@@ -74,14 +82,25 @@ public class Banco {
         }
     }
 
+    /**
+     * Adiciona um cliente no arrayList do banco/agência.
+     * @param cliente cliente a ser adicionado no sistema.
+     */
     public void adicionaCliente(Cliente cliente) {
         this.clientes.add(cliente);
     }
 
+    /**
+     * Adiciona uma conta no arryList do banco/agência.
+     * @param conta conta a ser adicionada no sistema.
+     */
     public void adicionaConta(Conta conta) {
         this.contas.add(conta);
     }
 
+    /**
+     * Imprime todos os clientes do arrayList de clientes do banco.
+     */
     public void showClientes() {
 //        for (i = 0; i < this.clientes.size(); i++){
 //            System.out.println("-----Cliente "+ i+1 + "-----");
@@ -96,6 +115,9 @@ public class Banco {
         });
     }
 
+    /**
+     * Imprime todas as contas do arrayList de contas do banco
+     */
     public void showContas() {
         this.contas.forEach(conta -> { // foreach = funcao do ArrayList
             System.out.println("\n-----Conta "+ conta.getId() +"-----");
@@ -104,6 +126,10 @@ public class Banco {
         });
     }
 
+    /**
+     * Verifica o saldo de um cliente informado pelo usuario
+     * @throws UserNotFoundException Caso o usuario não seja encontrado (CPF inexistente)
+     */
     public void saldoCliente() throws UserNotFoundException {
         Scanner leitor =  new Scanner(System.in);
         int cpfLocal;
@@ -127,6 +153,10 @@ public class Banco {
         }
     }
 
+    /**
+     * Verifica o saldo de uma conta informada pelo usuario
+     * @throws AccountNotFoundException Caso a conta não seja encontrada (idConta inexistente)
+     */
     public void saldoConta() throws AccountNotFoundException {
         Scanner leitor =  new Scanner(System.in);
         int idLocal;
@@ -150,6 +180,10 @@ public class Banco {
         }
     }
 
+    /**
+     * Função não utilizada
+     * A ser refeita/revisada.
+     */
     public void extratoClienteStart() {
         AtomicInteger numContas = new AtomicInteger();
 
@@ -166,6 +200,15 @@ public class Banco {
         numContas.set(0);
     }
 
+    /**
+     * Imprime o extrato do cliente com as seguintes informações:
+     *  - Pagante: Nome do usuario que transferiu o dinheiro;
+     *  - CPF Pagante: CPF do usuario que transferiu o dinheiro;
+     *  - Valor transferido: valor transferido (imprime com a conversão de int para float)
+     *  - Recebente: Nome do usuario que recebeu a transferencia;
+     *  - CPF Recebente: CPF do usuario que recebeu a transferencia;
+     * @throws UserNotFoundException Caso não seja encontrado o usuario informado
+     */
     public void showExtratoCliente() throws UserNotFoundException {
         Scanner leitor =  new Scanner(System.in);
         int cpfLocal;
@@ -188,6 +231,15 @@ public class Banco {
         }
     }
 
+    /**
+     * Imprime o extrato do cliente com as seguintes informações:
+     *  - Pagante: Nome do usuario que transferiu o dinheiro;
+     *  - Conta Pagante: Numero da conta que transferiu o dinheiro;
+     *  - Valor transferido: valor transferido (imprime com a conversão de int para float)
+     *  - Recebente: Nome do usuario que recebeu a transferencia;
+     *  - Conta Recebente: Numero da conta que recebeu a transferencia;
+     * @throws AccountNotFoundException Caso não seja encontrado a conta informada
+     */
     public void showExtratoConta() throws AccountNotFoundException {
         Scanner leitor =  new Scanner(System.in);
         int idLocal;
@@ -210,6 +262,14 @@ public class Banco {
         }
     }
 
+    /**
+     *  Efetua a transferencia entre duas contas verificando a existencia das contas, a quantidade de saldo da conta que envia, verifica o balanço geral do banco
+     *  e trata erros de input
+     *
+     * @throws UserNotFoundException Caso não seja encontrado a conta informada (tanto para o Pagante quanto para o Recebente)
+     * @throws LowBalanceException Caso o usuario tente transferir mais dinheiro do que ele possui em sua conta
+     * @throws WrongBalanceExpetion Caso o balanço do banco seja afetado de alguma forma
+     */
     public void transferencia() throws UserNotFoundException, WrongBalanceExpetion {
         Scanner leitor =  new Scanner(System.in);
 
@@ -233,6 +293,7 @@ public class Banco {
         System.out.println("Valor que deseja transferir: ");
         valorInformado = leitor.nextFloat();
 
+        //trata o valor informado para converter ele em int
         valorInformado = valorInformado*100;
         valorpago = (int)valorInformado;
 
@@ -246,7 +307,7 @@ public class Banco {
                         e.printStackTrace();
                     }
                 } else {
-                    conta.setSaldo(conta.getSaldo()-valorpago);
+                    conta.setSaldo(conta.getSaldo()-valorpago);  // aqui não deveria ser idpaga? vvvvv
                     Conta contaPagante = this.contas.stream().filter((Conta x )-> x.getId() == idrecebe).collect(Collectors.toList()).get(0);
                     conta.setExtrato(
                             new Transferencia(
