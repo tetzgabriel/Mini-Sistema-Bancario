@@ -255,6 +255,23 @@ public class Banco {
         System.out.println("Id da conta que recebe: ");
         idrecebe = leitor.nextInt();
 
+        this.contas.forEach(conta -> {
+            if(idpaga == conta.getId()){
+                encontroupaga.set(1);
+            }
+            if(idrecebe == conta.getId()){
+                encontrourecebe.set(1);
+            }
+        });
+
+        if(encontroupaga.get() != 1){
+            throw new UserNotFoundException("Usuario nao encontrado");
+        }
+
+        if(encontrourecebe.get() != 1){
+            throw new UserNotFoundException("Usuario nao encontrado");
+        }
+
         System.out.println("Valor que deseja transferir: ");
         valorInformado = leitor.nextFloat();
 
@@ -263,8 +280,9 @@ public class Banco {
         valorpago = (int)valorInformado;
 
         this.contas.forEach(conta -> {
+
+            //grava transferencia para o pagante
             if(idpaga == conta.getId()){
-                encontroupaga.set(1);
                 if(conta.getSaldo() < valorpago) {
                     try {
                         throw new LowBalanceException("Saldo Insuficiente");
@@ -272,107 +290,55 @@ public class Banco {
                         e.printStackTrace();
                     }
                 } else {
-                    conta.setSaldo(conta.getSaldo()-valorpago);  // aqui não deveria ser idpaga? vvvvv
-                    Conta contaPagante = this.contas.stream().filter((Conta x )-> x.getId() == idrecebe).collect(Collectors.toList()).get(0);
+                    conta.setSaldo(conta.getSaldo()-valorpago);
+                    //Aloca a transferencia no extrato da conta que pagou
+                    Conta contaRecebe = this.contas.stream().filter((Conta x )-> x.getId() == idrecebe).collect(Collectors.toList()).get(0);
                     conta.setExtrato(
                             new Transferencia(
                                     -valorpago,
                                     conta,
-                                    contaPagante
+                                    contaRecebe
                             )
                     );
-
+                    //Aloca a transferencia no extrato do cliente que pagou
                     this.clientes.forEach(cliente -> {
                         if(conta.getCpf() == cliente.getCpf())
                             cliente.setExtrato(
                                     new Transferencia(
                                             -valorpago,
                                             cliente,
-                                            this.contas.stream().filter(x-> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                                            this.contas.stream().filter(x-> x.getId() == idrecebe).collect(Collectors.toList()).get(0) //talvez tenha um erro aqui
                                     )
                             );
                     });
                 }
             }
 
+            //grava transferencia para o recebente
+            //Aloca a transferencia no extrato da conta que pagou
             if(idrecebe == conta.getId()){
-                encontrourecebe.set(2);
                 conta.setSaldo(conta.getSaldo() + valorpago);
                 conta.setExtrato(
                         new Transferencia(
                                 +valorpago,
-                                conta,
-                                this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                                this.contas.stream().filter(x -> x.getId() == idpaga).collect(Collectors.toList()).get(0),
+                                conta
                         )
                 );
 
+                //Aloca a transferencia no extrato do cliente que pagou
                 this.clientes.forEach(cliente -> {
                     if(conta.getCpf() == cliente.getCpf())
                         cliente.setExtrato(
                                 new Transferencia(
                                         +valorpago,
-                                        cliente,
-                                        this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                                        this.contas.stream().filter(x -> x.getId() == idpaga).collect(Collectors.toList()).get(0),
+                                        cliente
                                 )
                         );
                 });
             }
         });
-
-        if(encontroupaga.get() != 1) {
-            this.contas.forEach(conta -> {
-                if(idrecebe == conta.getId()){
-                    conta.setSaldo(conta.getSaldo() - valorpago);
-                    conta.setExtrato(
-                            new Transferencia(
-                                    -valorpago,
-                                    conta,
-                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
-                            )
-                    );
-
-                    this.clientes.forEach(cliente -> {
-                        if(conta.getCpf() == cliente.getCpf())
-                            cliente.setExtrato(
-                                    new Transferencia(
-                                            -valorpago,
-                                            conta,
-                                            this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
-                                    )
-                            );
-                    });
-                }
-            });
-            throw new UserNotFoundException("Usuario nao encontrado");
-        }
-
-        if(encontrourecebe.get() != 2) {
-            this.contas.forEach(conta -> {
-                if(idpaga == conta.getId()) {
-                    conta.setSaldo((conta.getSaldo() + valorpago));
-                    conta.setExtrato(
-                            new Transferencia(
-                                    +valorpago,
-                                    conta,
-                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
-                            )
-                    );
-
-                    this.clientes.forEach(cliente -> {
-                        if(conta.getCpf() == cliente.getCpf())
-                            cliente.setExtrato(
-                                    new Transferencia(
-                                        +valorpago,
-                                        conta,
-                                        this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
-                                    )
-                            );
-                    });
-                }
-            });
-
-            throw new UserNotFoundException("Usuario nao encontrado");
-        }
 
         balancoFinal = this.calculaBalanco();
 
@@ -383,8 +349,8 @@ public class Banco {
                     conta.setExtrato(
                             new Transferencia(
                                     +valorpago,
-                                    conta,
-                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0),
+                                    conta
                             )
                     );
 
@@ -393,8 +359,8 @@ public class Banco {
                             cliente.setExtrato(
                                     new Transferencia(
                                     +valorpago,
-                                    conta,
-                                    this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
+                                    this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0),
+                                    conta
                                     )
                             );
                     });
@@ -406,7 +372,7 @@ public class Banco {
                             new Transferencia(
                                     -valorpago,
                                     conta,
-                                    this.contas.stream().filter(x -> x.getId() == idrecebe).collect(Collectors.toList()).get(0)
+                                    this.contas.stream().filter(x -> x.getId() == idpaga).collect(Collectors.toList()).get(0)
                             )
                     );
 
@@ -416,7 +382,7 @@ public class Banco {
                                     new Transferencia(
                                             -valorpago,
                                             conta,
-                                            this.contas.stream().filter(x->x.getId()==idrecebe).collect(Collectors.toList()).get(0)
+                                            this.contas.stream().filter(x->x.getId()==idpaga).collect(Collectors.toList()).get(0)
                                     )
                             );
                     });
