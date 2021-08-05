@@ -10,9 +10,10 @@ import java.util.stream.Collectors;
 /**
  * Classe Banco
  * Todas as operações do menu são efetuadas por meio dos métodos da classe
+ * Banco possui um id proprio que se auto incrementa assim como em Contas
  */
 public class Banco {
-    private int numeroAgencias;
+    private static int numeroAgencias = 200; //apenas generalização para o caso de existir mais de uma agencia
     private int balanco;
     private int id;
 
@@ -20,49 +21,12 @@ public class Banco {
     private ArrayList<Conta> contas;
 
     public Banco(int numeroAgencias) {
-        this.numeroAgencias = numeroAgencias;
+        this.balanco = 0;
         this.clientes = new ArrayList<>();
         this.contas = new ArrayList<>();
-    }
+        this.id = numeroAgencias;
 
-    public int getNumeroAgencias() {
-        return numeroAgencias;
-    }
-
-    public void setNumeroAgencias(int numeroAgencias) {
-        this.numeroAgencias = numeroAgencias;
-    }
-
-    public int getBalanco() {
-        return balanco;
-    }
-
-    public void setBalanco(int balanco) {
-        this.balanco = balanco;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public ArrayList<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(ArrayList<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
-    public ArrayList<Conta> getContas() {
-        return contas;
-    }
-
-    public void setContas(ArrayList<Conta> contas) {
-        this.contas = contas;
+        Banco.numeroAgencias++;
     }
 
     /**
@@ -78,6 +42,7 @@ public class Banco {
             for (i = 0; i < this.contas.size(); i++) {
                 balancoLocal += this.contas.get(i).getSaldo(); //this.contas[i] nao funciona por ser ArrayList
             }
+            this.balanco = balancoLocal;
             return balancoLocal;
         }
     }
@@ -147,7 +112,7 @@ public class Banco {
         });
 
         if (encontrou.get() == 1) {
-            System.out.println("Saldo do cliente: "+ saldoLocal.get()/100);
+            System.out.println("Saldo do cliente: "+ String.format("%.2f",(float)saldoLocal.get()/100));
         } else {
             throw new UserNotFoundException("Usuario nao encontrado");
         }
@@ -174,7 +139,7 @@ public class Banco {
         });
 
         if (encontrou.get() == 1) {
-            System.out.println("Saldo da conta: "+ saldoLocal.get()/100);
+            System.out.println("Saldo da conta: "+ String.format("%.2f",(float)saldoLocal.get()/100));
         } else {
             throw new AccountNotFoundException("Conta nao encontrada");
         }

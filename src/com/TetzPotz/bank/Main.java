@@ -30,6 +30,9 @@ public class Main {
         agencia.adicionaConta(new Conta(4,"Claudia Soares"));
         agencia.adicionaConta(new Conta(5,"Maria Antonieta"));
 
+        //Inicializando o balanco apos todas as contas criadas
+        agencia.calculaBalanco();
+
         do {
             System.out.println("\nEscolha um item pelo numero");
             System.out.println("(0) Lista de Clientes");
