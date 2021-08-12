@@ -2,6 +2,9 @@ package com.TetzPotz.bank;
 
 import java.util.ArrayList;
 
+/**
+ * Classe Cliente possuindo CPF e um nome, alem de um arrayList(do tipo Transferencia) com o extrato referente ao cliente
+ */
 public class Cliente {
     private int cpf;
     private String nome;
@@ -14,24 +17,12 @@ public class Cliente {
         this.extrato = new ArrayList<>();
     }
 
-    public Cliente() {
-
-    }
-
     public int getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
-        this.cpf = cpf;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public Transferencia getExtrato(int i) {
@@ -42,6 +33,11 @@ public class Cliente {
         this.extrato.add(transferencia);
     }
 
+    /**
+     * Função para saber quantos elementos o extrato possui pois o mesmo é private, logo precisamos de uma função get para o uso da função .size().
+     * Utilizado em estuturas de repetição para percorrer por meio do extrato.
+     * @return int tamanho do arrayList extrato.
+     */
     public int getTamExtrato() {
         return this.extrato.size();
     }

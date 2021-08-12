@@ -1,20 +1,19 @@
 package com.TetzPotz.bank;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Main {
     /**
      *
-     * @param args
+     * @param args parametros padrão
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner leitor =  new Scanner(System.in);
-        Banco agencia = new Banco(1);
+        Banco agencia = new Banco();
 
         //instanciar o banco como objeto chamado agencia
-        int opcao = 0, subOpcao = 0;
+        int opcao, subOpcao;
 
         // Inicializando todos os clientes
         agencia.adicionaCliente(new Cliente(1,"Pedro Potenza"));
@@ -25,10 +24,15 @@ public class Main {
 
         //Inicializando todas as contas
         agencia.adicionaConta(new Conta(1,"Pedro Potenza"));
+        agencia.adicionaConta(new Conta(1,"Pedro Potenza"));
         agencia.adicionaConta(new Conta(2,"Gabriel Tetzlaf"));
+        agencia.adicionaConta(new Conta(3,"Thiago Gottardi"));
         agencia.adicionaConta(new Conta(3,"Thiago Gottardi"));
         agencia.adicionaConta(new Conta(4,"Claudia Soares"));
         agencia.adicionaConta(new Conta(5,"Maria Antonieta"));
+
+        //Inicializando o balanco apos todas as contas criadas
+        agencia.calculaBalanco();
 
         do {
             System.out.println("\nEscolha um item pelo numero");
