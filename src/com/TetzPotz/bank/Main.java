@@ -3,6 +3,10 @@ package com.TetzPotz.bank;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+/**
+ * @author Gabriel Tetzlaf
+ * @author Pedro Potenza
+ */
 public class Main {
     /**
      *

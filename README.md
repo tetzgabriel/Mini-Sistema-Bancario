@@ -1,4 +1,9 @@
 # Mini Sistema Bancário
+
+### Colaboradores
+Gabriel Tetzlaf <br>
+Pedro Potenza
+
 ## Introdução
 Neste projeto de trabalho, o/a aluno(a) deverá implementar um pequeno sistema bancário com menu de console.
 
