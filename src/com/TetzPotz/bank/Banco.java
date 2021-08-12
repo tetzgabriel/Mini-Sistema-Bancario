@@ -15,16 +15,14 @@ import java.util.stream.Collectors;
 public class Banco {
     private static int numeroAgencias = 200; //apenas generalização para o caso de existir mais de uma agência
     private int balanco;
-    private int id;
 
-    private ArrayList<Cliente> clientes;
-    private ArrayList<Conta> contas;
+    private final ArrayList<Cliente> clientes;
+    private final ArrayList<Conta> contas;
 
-    public Banco(int numeroAgencias) {
+    public Banco() {
         this.balanco = 0;
         this.clientes = new ArrayList<>();
         this.contas = new ArrayList<>();
-        this.id = numeroAgencias;
 
         Banco.numeroAgencias++;
     }
@@ -37,7 +35,7 @@ public class Banco {
         if (this.contas.isEmpty()){
             return 0;
         } else {
-            int balancoLocal = 0, i = 0;
+            int balancoLocal = 0, i;
 
             for (i = 0; i < this.contas.size(); i++) {
                 balancoLocal += this.contas.get(i).getSaldo(); //this.contas[i] nao funciona por ser ArrayList
@@ -67,11 +65,6 @@ public class Banco {
      * Imprime todos os clientes do arrayList de clientes do banco.
      */
     public void showClientes() {
-//        for (i = 0; i < this.clientes.size(); i++){
-//            System.out.println("-----Cliente "+ i+1 + "-----");
-//            System.out.println("Nome do cliente: " + this.clientes.get(i).getNome());
-//            System.out.println("CPF do cliente: " + this.clientes.get(i).getCpf());
-//        }
 
         this.clientes.forEach(cliente -> { // foreach = funcao do ArrayList
             System.out.println("\n-----Cliente-----");
@@ -146,26 +139,6 @@ public class Banco {
     }
 
     /**
-     * Função não utilizada
-     * A ser refeita/revisada.
-     */
-    public void extratoClienteStart() {
-        AtomicInteger numContas = new AtomicInteger();
-
-        this.clientes.forEach(cliente -> {
-            this.contas.forEach(conta -> {
-                if(cliente.getCpf() == conta.getCpf()) numContas.getAndIncrement();
-            });
-        });
-
-        for (int i = 0; i < numContas.get(); i++) {
-            this.clientes.get(i).setExtrato(new Transferencia(100000));
-        }
-
-        numContas.set(0);
-    }
-
-    /**
      * Imprime o extrato do cliente com as seguintes informações:
      *  - Pagante: Nome do usuario que transferiu o dinheiro;
      *  - CPF Pagante: CPF do usuario que transferiu o dinheiro;
@@ -232,7 +205,6 @@ public class Banco {
      *  e trata erros de input
      *
      * @throws UserNotFoundException Caso não seja encontrado a conta informada (tanto para o Pagante quanto para o Recebente)
-     * @throws LowBalanceException Caso o usuario tente transferir mais dinheiro do que ele possui em sua conta
      * @throws WrongBalanceExpetion Caso o balanço do banco seja afetado de alguma forma
      */
     public void transferencia() throws UserNotFoundException, WrongBalanceExpetion {
