@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 /**
  * Classe Banco
  * Todas as operações do menu são efetuadas por meio dos métodos da classe
- * Banco possui um id proprio que se auto incrementa assim como em Contas
+ * Banco possui um id proprio que se autoincrementa assim como em Contas
  */
 public class Banco {
-    private static int numeroAgencias = 200; //apenas generalização para o caso de existir mais de uma agencia
+    private static int numeroAgencias = 200; //apenas generalização para o caso de existir mais de uma agência
     private int balanco;
     private int id;
 
@@ -246,6 +246,7 @@ public class Banco {
         int balancoInicial;
         int balancoFinal;
         float valorInformado;
+        String valorInformadoString;
 
         balancoInicial = this.calculaBalanco();
 
@@ -273,7 +274,8 @@ public class Banco {
         }
 
         System.out.println("Valor que deseja transferir: ");
-        valorInformado = leitor.nextFloat();
+        valorInformadoString = leitor.next();
+        valorInformado = Float.parseFloat(valorInformadoString.replace(",", "."));
 
         //trata o valor informado para converter ele em int
         valorInformado = valorInformado*100;
